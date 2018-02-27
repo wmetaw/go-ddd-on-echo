@@ -11,7 +11,11 @@ func Users(c echo.Context) error {
 
 	users, err := application.Users()
 	if err != nil {
-		panic(err)
+		return JsonError(c, err, &APIError{
+			Message: "ユーザーが見つかりませんでした",
+			Status:  http.StatusInternalServerError,
+			Code:    ErrCodeText(CodeClientHoge),
+		})
 	}
 
 	data := map[string]interface{}{"user": users}
@@ -21,10 +25,14 @@ func Users(c echo.Context) error {
 func UsersGet(c echo.Context) error {
 
 	pid := c.Param("id")
-	if pid == "" {
-		return c.JSON(http.StatusInternalServerError, "no value for param requested")
+	id, e := strconv.Atoi(pid)
+	if e != nil {
+		return JsonError(c, e, &APIError{
+			Message: "パラメーターが不正です",
+			Status:  http.StatusInternalServerError,
+			Code:    ErrCodeText(CodeClientHoge),
+		})
 	}
-	id, _ := strconv.Atoi(pid)
 
 	user, err := application.UsersGet(id)
 	if err != nil {
@@ -39,14 +47,22 @@ func UsersUpdate(c echo.Context) error {
 
 	pid := c.Param("id")
 	name := c.FormValue("name")
-	if pid == "" {
-		return c.JSON(http.StatusInternalServerError, "no value for param requested")
+	id, e := strconv.Atoi(pid)
+	if e != nil {
+		return JsonError(c, e, &APIError{
+			Message: "パラメーターが不正です",
+			Status:  http.StatusInternalServerError,
+			Code:    ErrCodeText(CodeClientHoge),
+		})
 	}
-	id, _ := strconv.Atoi(pid)
 
 	user, err := application.UsersUpdate(id, name)
 	if err != nil {
-		panic(err)
+		return JsonError(c, e, &APIError{
+			Message: "更新に失敗しました",
+			Status:  http.StatusInternalServerError,
+			Code:    ErrCodeText(CodeClientHoge),
+		})
 	}
 
 	data := map[string]interface{}{"user": user}

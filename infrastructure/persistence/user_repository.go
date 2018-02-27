@@ -29,10 +29,6 @@ func (r *UserRepositoryImpl) GetAll() ([]*domain.User, error) {
 
 func (r *UserRepositoryImpl) Get(id int) (*domain.User, error) {
 
-	if id < 1 {
-		panic("no value for param requested")
-	}
-
 	user := domain.User{}
 	r.DB.Find(&user, id)
 

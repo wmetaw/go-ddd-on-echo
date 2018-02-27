@@ -26,7 +26,7 @@ func UsersGet(c echo.Context) error {
 
 	pid := c.Param("id")
 	id, e := strconv.Atoi(pid)
-	if e != nil {
+	if e != nil || id <= 0 {
 		return JsonError(c, e, &APIError{
 			Message: "パラメーターが不正です",
 			Status:  http.StatusInternalServerError,
@@ -48,7 +48,7 @@ func UsersUpdate(c echo.Context) error {
 	pid := c.Param("id")
 	name := c.FormValue("name")
 	id, e := strconv.Atoi(pid)
-	if e != nil {
+	if e != nil || id <= 0 {
 		return JsonError(c, e, &APIError{
 			Message: "パラメーターが不正です",
 			Status:  http.StatusInternalServerError,

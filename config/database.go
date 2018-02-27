@@ -7,6 +7,10 @@ import (
 	"os"
 )
 
+var (
+	DBCon *gorm.DB
+)
+
 // new db connection returns db,err
 func NewDBConnection() (*gorm.DB, error) {
 

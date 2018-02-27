@@ -2,27 +2,25 @@ package persistence
 
 import (
 	"fmt"
-	"github.com/jinzhu/gorm"
+	"github.com/wmetaw/go-ddd-on-echo/config"
 	"github.com/wmetaw/go-ddd-on-echo/domain"
 	"github.com/wmetaw/go-ddd-on-echo/domain/repository"
 )
 
 // UserRepository Implements repository.UserRepository
-type UserRepositoryImpl struct {
-	DB *gorm.DB
-}
+type UserRepositoryImpl struct{}
 
 // NewUserRepositoryWithRDB returns initialized UserRepositoryImpl
 // 戻り値をinterfaceにすることでUserRepository interfaceを全て実装しないとエラー
-func NewUserRepositoryWithRDB(db *gorm.DB) repository.UserRepository {
-	return &UserRepositoryImpl{DB: db}
+func NewUserRepositoryWithRDB() repository.UserRepository {
+	return &UserRepositoryImpl{}
 }
 
 func (r *UserRepositoryImpl) GetAll() ([]*domain.User, error) {
 
 	// usersインスタンス化
 	users := []*domain.User{}
-	r.DB.Find(&users)
+	config.DBCon.Find(&users)
 
 	return users, nil
 }
@@ -30,7 +28,7 @@ func (r *UserRepositoryImpl) GetAll() ([]*domain.User, error) {
 func (r *UserRepositoryImpl) Get(id int) (*domain.User, error) {
 
 	user := domain.User{}
-	r.DB.Find(&user, id)
+	config.DBCon.Find(&user, id)
 
 	return &user, nil
 }
@@ -38,7 +36,7 @@ func (r *UserRepositoryImpl) Get(id int) (*domain.User, error) {
 func (r *UserRepositoryImpl) Update(user *domain.User) (*domain.User, error) {
 
 	// transaction
-	tx := r.DB.Begin()
+	tx := config.DBCon.Begin()
 	fmt.Println(user)
 	if err := tx.Model(&user).UpdateColumn("name", user.Name).Error; err != nil {
 		tx.Rollback()

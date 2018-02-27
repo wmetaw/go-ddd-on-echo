@@ -14,7 +14,7 @@ func Users() ([]*domain.User, error) {
 	}
 	defer db.Close()
 
-	repo := persistence.NewUserRepositoryWithRDB(db)
+	repo := persistence.NewUserRepositoryWithRDB()
 	return repo.GetAll()
 }
 
@@ -26,7 +26,7 @@ func UsersGet(id int) (*domain.User, error) {
 	}
 	defer db.Close()
 
-	repo := persistence.NewUserRepositoryWithRDB(db)
+	repo := persistence.NewUserRepositoryWithRDB()
 	return repo.Get(id)
 }
 
@@ -41,6 +41,6 @@ func UsersUpdate(id int, name string) (*domain.User, error) {
 	user, _ := UsersGet(id)
 	user.Name = name
 
-	repo := persistence.NewUserRepositoryWithRDB(db)
+	repo := persistence.NewUserRepositoryWithRDB()
 	return repo.Update(user)
 }

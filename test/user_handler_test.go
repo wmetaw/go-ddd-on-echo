@@ -44,8 +44,10 @@ func TestUsersHandler(t *testing.T) {
 	// log テストは終了しない
 	t.Logf("Log : %v", rec.Body)
 
-	// t.Fatal系が呼び出し元のテストメソッドの実行を即座に終了させるのに対し、
-	// t.Error系はテストを失敗扱いにするものの、処理はそのまま継続させる。
-	t.Fatal("Fatal")
-	t.Error("Error") // 表示されない
+	/*
+		t.Fatal系が呼び出し元のテストメソッドの実行を即座に終了させるのに対し、
+		t.Error系はテストを失敗扱いにするものの、処理はそのまま継続させる。
+	*/
+	//t.Fatal("Fatal")
+	//t.Error("Error") // 表示されない
 }

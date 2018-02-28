@@ -46,6 +46,18 @@
   version = "0.2.3"
 
 [[projects]]
+  name = "github.com/mattes/migrate"
+  packages = [
+    ".",
+    "database",
+    "database/mysql",
+    "source",
+    "source/file"
+  ]
+  revision = "035c07716cd373d88456ec4d701402df52584cb4"
+  version = "v3.0.1"
+
+[[projects]]
   name = "github.com/mattn/go-colorable"
   packages = ["."]
   revision = "167de6bfdfba052fa6b2d3664c8f5272e23c9072"
@@ -87,6 +99,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "4667b484ea6540365ccb630dadb861480264f0d0e708558441adafe01aa7af24"
+  inputs-digest = "3eebd0c180e0afc7f4191a13fae30277eb99013d787e167d4ebf210e7979a1d5"
   solver-name = "gps-cdcl"
   solver-version = 1

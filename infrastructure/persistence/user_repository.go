@@ -1,7 +1,6 @@
 package persistence
 
 import (
-	"fmt"
 	"github.com/wmetaw/go-ddd-on-echo/config"
 	"github.com/wmetaw/go-ddd-on-echo/domain"
 	"github.com/wmetaw/go-ddd-on-echo/domain/repository"
@@ -37,11 +36,17 @@ func (r *UserRepositoryImpl) Update(user *domain.User) (*domain.User, error) {
 
 	// transaction
 	tx := config.DBCon.Begin()
-	fmt.Println(user)
+	defer func() {
+		if r := recover(); r != nil {
+			tx.Rollback()
+		}
+	}()
+
+	// transaction
 	if err := tx.Model(&user).UpdateColumn("name", user.Name).Error; err != nil {
 		tx.Rollback()
+		return user, err
 	}
-	tx.Commit()
 
-	return user, nil
+	return user, tx.Commit().Error
 }

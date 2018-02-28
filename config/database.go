@@ -14,17 +14,20 @@ var (
 // new db connection returns db,err
 func NewDBConnection() (*gorm.DB, error) {
 
-	user := getEnv("DB_USER", "root")
-	password := getEnv("DB_PASSWORD", "")
-	db_name := "test"
-	opt := "charset=utf8&parseTime=True&loc=Local"
-	dsn := fmt.Sprintf("%s:%s@/%s?%s", user, password, db_name, opt)
-	db, err := gorm.Open("mysql", dsn)
+	db, err := gorm.Open("mysql", GetDSN())
 	if err != nil {
 		return nil, err
 	}
 
 	return db, nil
+}
+
+func GetDSN() string {
+	user := getEnv("DB_USER", "root")
+	password := getEnv("DB_PASSWORD", "")
+	db_name := "test"
+	opt := "charset=utf8&parseTime=True&loc=Local"
+	return fmt.Sprintf("%s:%s@/%s?%s", user, password, db_name, opt)
 }
 
 func getEnv(name, def string) string {

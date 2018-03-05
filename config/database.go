@@ -2,9 +2,10 @@ package config
 
 import (
 	"fmt"
+	"os"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
-	"os"
 )
 
 var (
@@ -24,10 +25,10 @@ func NewDBConnection() (*gorm.DB, error) {
 
 func GetDSN() string {
 	user := getEnv("DB_USER", "root")
-	password := getEnv("DB_PASSWORD", "")
-	db_name := "test"
+	password := getEnv("DB_PASSWORD", "root")
+	db_name := "dev"
 	opt := "charset=utf8&parseTime=True&loc=Local"
-	return fmt.Sprintf("%s:%s@/%s?%s", user, password, db_name, opt)
+	return fmt.Sprintf("%s:%s@tcp(mysql-server:3306)/%s?%s", user, password, db_name, opt)
 }
 
 func getEnv(name, def string) string {

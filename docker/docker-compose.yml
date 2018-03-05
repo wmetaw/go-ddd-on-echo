@@ -1,0 +1,29 @@
+version: '3'
+services:
+  # Mysql Server Container
+  mysql-server:
+    image: mysql:5.7.21
+    expose:
+      - 3306
+    environment:
+      LANG: ja_JP.UTF-8
+      TZ: Asia/Tokyo
+      MYSQL_HOST: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dev
+
+  # Application Server Container
+  web:
+    # build Dockerfile
+    build: ./web
+    ports:
+    - "1323:1323"
+    # mount host directory HostPath:ContainerPath
+    volumes:
+      - ${GOPATH}/src/github.com/wmetaw/go-ddd-on-echo:/go/src/github.com/wmetaw/go-ddd-on-echo
+    environment:
+      LANG: ja_JP.UTF-8
+      TZ: Asia/Tokyo
+    links:
+      - mysql-server
+    command: go run /go/src/github.com/wmetaw/go-ddd-on-echo/main.go

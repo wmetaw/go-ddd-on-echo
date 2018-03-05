@@ -5,13 +5,12 @@ import (
 	"github.com/labstack/echo/middleware"
 	"github.com/wmetaw/go-ddd-on-echo/config"
 	"github.com/wmetaw/go-ddd-on-echo/interfaces/handlers"
-	"github.com/wmetaw/go-ddd-on-echo/library"
 )
 
 func main() {
 
 	// migrate
-	library.Migrate()
+	//library.Migrate()
 
 	// Echo instance
 	e := echo.New()

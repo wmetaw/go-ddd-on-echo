@@ -1,15 +1,5 @@
 version: '3'
 services:
-  # Mysql Server Container
-  mysql-server:
-    image: mysql:5.7.21
-    expose:
-      - 3306
-    environment:
-      TZ: Asia/Tokyo
-      MYSQL_HOST: root
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: dev
 
   # Application Server Container
   web:
@@ -27,3 +17,14 @@ services:
     links:
       - mysql-server
     command: go run /go/src/github.com/wmetaw/go-ddd-on-echo/main.go
+
+  # Mysql Server Container
+  mysql-server:
+    image: mysql:5.7.21
+    expose:
+      - 3306
+    environment:
+      TZ: Asia/Tokyo
+      MYSQL_HOST: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dev

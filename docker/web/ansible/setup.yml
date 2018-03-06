@@ -1,0 +1,67 @@
+- name: Local Provisioning
+  hosts: localhost
+  connection: local
+
+  # Variables
+  vars:
+    src_dir: /usr/local/
+    go_version: go1.10.linux-amd64
+
+  tasks:
+    - name: install packages
+      yum: name={{ item }} state=installed
+      with_items:
+        - wget
+        - tar
+        - gzip
+
+    # Download Golang
+    - name: Download Golang to /usr/local
+      get_url: url="https://storage.googleapis.com/golang/{{go_version}}.tar.gz" dest=/usr/local
+
+    - unarchive:
+        src=/usr/local/{{go_version}}.tar.gz
+        dest=/usr/local/
+
+    - file: path=/usr/local/{{go_version}}.tar.gz
+        state=absent
+
+    # Install mattes/migrate (Database migrations. CLI and Golang library.)
+    - name: Install mattes/migrate (Database migrations. CLI and Golang library.)
+      get_url: url="https://github.com/mattes/migrate/releases/download/v3.0.1/migrate.linux-amd64.tar.gz" dest=/usr/local/bin
+
+    - unarchive:
+        src=/usr/local/bin/migrate.linux-amd64.tar.gz
+        dest=/usr/local/bin
+
+    - file: path=/usr/local/bin/migrate.linux-amd64.tar.gz
+        state=absent
+
+    - name: Rename "migrate.linux-amd64" to "migrate"
+      command: mv /usr/local/bin/migrate.linux-amd64 /usr/local/bin/migrate
+
+
+
+    # - name: set PATH
+    #   shell: echo $PATH
+    #   environment:
+    #     GOPATH: /go
+    #     PATH: "{{ ansible_env.PATH }}:/go/bin"
+    #     PATH: "{{ ansible_env.PATH }}:/usr/local/go/bin"
+
+    # # Before 2.3, option 'dest', 'destfile' or 'name' was used instead of 'path'
+    # - lineinfile:
+    #     path: /go
+    #     regexp: '^GOPATH='
+    #     line: 'GOPATH=/go'
+
+    # - name: Set GOPATH
+    #   command: export PATH="/usr/local/go/bin:{{path}}"
+    # - name: Set GOPATH
+    #   command: export GOPATH=/go
+    # - name: Set GOPATH
+    #   command: export PATH={{path}}:/go/bin
+    # - name: Set GOPATH
+    #   command: mkdir -p "/go/src" "/go/bin" && chmod -R 777 "/go/"
+
+# ansible-playbook setup.yml

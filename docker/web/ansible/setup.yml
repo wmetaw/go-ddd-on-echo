@@ -14,6 +14,8 @@
         - wget
         - tar
         - gzip
+        - git
+        - gcc
 
     # Download Golang
     - name: Download Golang to /usr/local
@@ -40,7 +42,9 @@
     - name: Rename "migrate.linux-amd64" to "migrate"
       command: mv /usr/local/bin/migrate.linux-amd64 /usr/local/bin/migrate
 
-
+    # Install godo (golang build tool in the spirt of rake, gulp)
+    - name: Install godo (golang build tool in the spirt of rake, gulp)
+      command: go get -u gopkg.in/godo.v2/cmd/godo
 
     # - name: set PATH
     #   shell: echo $PATH

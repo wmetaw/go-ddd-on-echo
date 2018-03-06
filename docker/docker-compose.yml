@@ -16,7 +16,8 @@ services:
       - mysql-server
     links:
       - mysql-server
-    command: go run /go/src/github.com/wmetaw/go-ddd-on-echo/main.go
+    command: godo server --watch
+    # command: go run /go/src/github.com/wmetaw/go-ddd-on-echo/main.go
 
   # Mysql Server Container
   mysql-server:

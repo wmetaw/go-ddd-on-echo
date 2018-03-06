@@ -15,6 +15,9 @@ ENV GOPATH /go
 ENV PATH $PATH:$GOPATH/bin:/usr/local/go/bin
 RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
 
+# Ansible
 WORKDIR /etc/ansible/
 RUN ansible-playbook setup.yml
-WORKDIR /
+
+# ワーキングディレクトリ(docker-compose run やexecはこのディレクトリ上で実行される)
+WORKDIR /go/src/github.com/wmetaw/go-ddd-on-echo/

@@ -12,7 +12,7 @@ ADD ansible/* /etc/ansible/
 
 # GOPATH
 ENV GOPATH /go
-ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
+ENV PATH $PATH:$GOPATH/bin:/usr/local/go/bin
 RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
 
 WORKDIR /etc/ansible/

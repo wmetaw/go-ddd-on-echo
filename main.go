@@ -31,6 +31,12 @@ func main() {
 	// Memcached Connection
 	config.MCCon = config.NewMemcacheConnection()
 
+	// Redis Connection
+	config.RedisCon, err = config.NewRedisConnection()
+	if err != nil {
+		panic(err)
+	}
+
 	// handler
 	handlers.Routes(e)
 

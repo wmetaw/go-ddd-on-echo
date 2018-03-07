@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"github.com/bradfitz/gomemcache/memcache"
+	"github.com/go-redis/redis"
 	"github.com/labstack/echo"
 	"github.com/wmetaw/go-ddd-on-echo/config"
 	"net/http"
@@ -16,6 +17,43 @@ func Routes(e *echo.Echo) {
 	// memcached test
 	e.GET("/memcache/:id", MemcacheGet)
 	e.POST("/memcache/:id", MemcacheSet)
+
+	// redis test
+	e.GET("/redis/:id", RedisGet)
+	e.POST("/redis/:id", RedisSet)
+}
+
+func RedisSet(c echo.Context) error {
+
+	pid := c.Param("id")
+
+	if err := config.RedisCon.Set(pid, "fugavalue", 0).Err(); err != nil {
+		return JsonError(c, err, &APIError{
+			Message: "Redis Can not Set : " + pid,
+			Status:  http.StatusInternalServerError,
+			Code:    ErrCodeText(CodeClientHoge),
+		})
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{"data": pid})
+}
+
+func RedisGet(c echo.Context) error {
+
+	pid := c.Param("id")
+
+	val, err := config.RedisCon.Get(pid).Result()
+	if err == redis.Nil {
+		// fmt.Println("hogekey does not exist")
+	} else if err != nil {
+		return JsonError(c, err, &APIError{
+			Message: "Redis Can not Get : " + pid,
+			Status:  http.StatusInternalServerError,
+			Code:    ErrCodeText(CodeClientHoge),
+		})
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{"data": val})
 }
 
 func MemcacheSet(c echo.Context) error {

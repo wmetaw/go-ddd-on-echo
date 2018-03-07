@@ -16,8 +16,10 @@ services:
       - mysql-server
     links:
       - mysql-server
+      - redis-server
+      - memcached-server
     # command: godo server --watch
-    command: bash -c "sleep 5; godo server --watch"
+    command: bash -c "sleep 2; godo server --watch"
     # command: go run /go/src/github.com/wmetaw/go-ddd-on-echo/main.go
 
   # Mysql Server Container
@@ -30,3 +32,17 @@ services:
       MYSQL_HOST: root
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: dev
+
+  # redis Server Container
+  redis-server:
+      image: redis:3.2.10
+      expose:
+        - 6379
+
+  # memcached Server Container
+  memcached-server:
+    image: memcached:1.4.34
+    expose:
+      - 11211
+    ports:
+      - "11211:11211"

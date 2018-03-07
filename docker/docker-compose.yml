@@ -16,7 +16,8 @@ services:
       - mysql-server
     links:
       - mysql-server
-    command: godo server --watch
+    # command: godo server --watch
+    command: bash -c "sleep 5; godo server --watch"
     # command: go run /go/src/github.com/wmetaw/go-ddd-on-echo/main.go
 
   # Mysql Server Container

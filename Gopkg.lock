@@ -2,6 +2,18 @@
 
 
 [[projects]]
+  branch = "master"
+  name = "github.com/MichaelTJones/walk"
+  packages = ["."]
+  revision = "4748e29d5718c2df4028a6543edf86fd8cc0f881"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/bradfitz/gomemcache"
+  packages = ["memcache"]
+  revision = "1952afaa557dc08e8e0d89eafab110fb501c1a2b"
+
+[[projects]]
   name = "github.com/dgrijalva/jwt-go"
   packages = ["."]
   revision = "dbeaa9332f19a944acb5736b4456cfcc02140e29"
@@ -12,6 +24,12 @@
   packages = ["."]
   revision = "a0583e0143b1624142adab07e0e97fe106d99561"
   version = "v1.3"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/howeyc/gopass"
+  packages = ["."]
+  revision = "bf9dde6d0d2c004a008c27aaee91170c786f6db8"
 
 [[projects]]
   name = "github.com/jinzhu/gorm"
@@ -71,6 +89,36 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/mgutz/ansi"
+  packages = ["."]
+  revision = "9520e82c474b0a04dd04f8a40959027271bab992"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/mgutz/minimist"
+  packages = ["."]
+  revision = "39eb8cf573ca29344bd7d7e6ba4d7febdebd37a9"
+
+[[projects]]
+  name = "github.com/mgutz/str"
+  packages = ["."]
+  revision = "968bf66e3da857419e4f6e71b2d5c9ae95682dc4"
+  version = "v1.2.0"
+
+[[projects]]
+  name = "github.com/mgutz/to"
+  packages = ["."]
+  revision = "00c06406c2dd2e011f153a6502a21473676db33f"
+  version = "v1.0.0"
+
+[[projects]]
+  name = "github.com/nozzle/throttler"
+  packages = ["."]
+  revision = "d9b45f19996c645d38c9266d1f5cf1990e930119"
+  version = "v1.0"
+
+[[projects]]
+  branch = "master"
   name = "github.com/valyala/bytebufferpool"
   packages = ["."]
   revision = "e746df99fe4a3986f4d4f79e13c1e0117ce9c2f7"
@@ -86,19 +134,35 @@
   name = "golang.org/x/crypto"
   packages = [
     "acme",
-    "acme/autocert"
+    "acme/autocert",
+    "ssh/terminal"
   ]
   revision = "650f4a345ab4e5b245a3034b110ebc7299e68186"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/sys"
-  packages = ["unix"]
+  packages = [
+    "unix",
+    "windows"
+  ]
   revision = "37707fdb30a5b38865cfb95e5aab41707daec7fd"
+
+[[projects]]
+  name = "gopkg.in/godo.v2"
+  packages = [
+    ".",
+    "glob",
+    "util",
+    "watcher",
+    "watcher/fswatch"
+  ]
+  revision = "b5fd2f0bef1ebe832e628cfad18ab1cc707f65a1"
+  version = "v2.0.9"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "3eebd0c180e0afc7f4191a13fae30277eb99013d787e167d4ebf210e7979a1d5"
+  inputs-digest = "452c8855ebca17392644c2f66fef7c72e55c788587e418a5f2ee8b1000233262"
   solver-name = "gps-cdcl"
   solver-version = 1

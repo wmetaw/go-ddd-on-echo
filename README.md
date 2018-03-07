@@ -82,4 +82,22 @@ docker-compose exec web bash
 
 # コンテナを起動してに入る
 docker-compose exec web bash
+
+# mysql-serverへの接続
+docker-compose ps | grep mysql
+docker inspect docker_mysql-server_1 | grep IPAddress
+docker-compose exec mysql-server mysql -h 172.18.0.3 -u root -proot
+
+# redis-serverへの接続
+docker-compose ps | grep redis
+docker inspect docker_redis-server_1 | grep IPAddress
+docker-compose exec redis-server redis-cli -h 172.18.0.2
+
+# memcached-serverへの接続(ローカルマシンにtelnetコマンドが必要)
+docker-compose ps | grep memcached
+docker inspect docker_memcached-server_1 | grep IPAddress
+telnet localhost 11211
+# telnet 0.0.0.0 11211
+# telnet 192.168.99.100 11211
+
 ```

@@ -28,6 +28,9 @@ func main() {
 	}
 	defer config.DBCon.Close()
 
+	// Memcached Connection
+	config.MCCon = config.NewMemcacheConnection()
+
 	// handler
 	handlers.Routes(e)
 

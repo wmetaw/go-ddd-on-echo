@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"github.com/bradfitz/gomemcache/memcache"
 	"github.com/go-redis/redis"
 	"github.com/labstack/echo"
@@ -42,6 +43,10 @@ func RedisGet(c echo.Context) error {
 
 	pid := c.Param("id")
 
+	// zadd FIFA 6 holland 6 colombia 2 japan 4 taiwan 3 china 1 germany 2 argentina
+	cmd := config.RedisCon.ZScore("FIFA", "japan")
+	cmdint := config.RedisCon.ZCount("FIFA", fmt.Sprint(cmd.Val()+1), "+inf")
+
 	val, err := config.RedisCon.Get(pid).Result()
 	if err == redis.Nil {
 		// fmt.Println("hogekey does not exist")
@@ -53,7 +58,7 @@ func RedisGet(c echo.Context) error {
 		})
 	}
 
-	return c.JSON(http.StatusOK, map[string]interface{}{"data": val})
+	return c.JSON(http.StatusOK, map[string]interface{}{"data": cmdint.Val() + 1, "data2": val})
 }
 
 func MemcacheSet(c echo.Context) error {

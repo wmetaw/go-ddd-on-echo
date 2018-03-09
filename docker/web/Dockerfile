@@ -1,10 +1,9 @@
 # Amazon Linux 2 image
-FROM amazonlinux:2017.12.0.20180222
+FROM wmetaw/amazon-linux2-ec2
 
-MAINTAINER RyoTakashima <r.takashima@miniascape.co.jp>
+MAINTAINER Ryo Takashima
 
 # ansible
-RUN yum install -y python-setuptools
 RUN easy_install pip
 RUN pip install ansible
 RUN mkdir /etc/ansible/
@@ -15,7 +14,7 @@ ENV GOPATH /go
 ENV PATH $PATH:$GOPATH/bin:/usr/local/go/bin
 RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
 
-# Ansible
+# Provisioning by Ansible
 WORKDIR /etc/ansible/
 RUN ansible-playbook setup.yml
 

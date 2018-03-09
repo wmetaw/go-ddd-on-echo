@@ -1,48 +1,48 @@
 version: '3'
 services:
 
-  # Application Server Container
-  web:
-    # build Dockerfile
-    build: ./web
-    ports:
-    - "1323:1323"
-    # mount host directory HostPath:ContainerPath
-    volumes:
-      - ${GOPATH}/src/github.com/wmetaw/go-ddd-on-echo:/go/src/github.com/wmetaw/go-ddd-on-echo
-    environment:
-      TZ: Asia/Tokyo
-    depends_on:
-      - mysql-server
-    links:
-      - mysql-server
-      - redis-server
-      - memcached-server
-    # command: godo server --watch
-    command: bash -c "sleep 2; godo server --watch"
-    # command: go run /go/src/github.com/wmetaw/go-ddd-on-echo/main.go
+ # Application Server Container
+ web:
+   # build Dockerfile
+   build: ./web
+   ports:
+   - "1323:1323"
+   # mount host directory HostPath:ContainerPath
+   volumes:
+     - ${GOPATH}/src/github.com/wmetaw/go-ddd-on-echo:/go/src/github.com/wmetaw/go-ddd-on-echo
+   environment:
+     TZ: Asia/Tokyo
+   depends_on:
+     - mysql-server
+   links:
+     - mysql-server
+     - redis-server
+     - memcached-server
+   # command: godo server --watch
+   command: bash -c "sleep 2; godo server --watch"
+   # command: go run /go/src/github.com/wmetaw/go-ddd-on-echo/main.go
 
-  # Mysql Server Container
-  mysql-server:
-    image: mysql:5.7.21
-    expose:
-      - 3306
-    environment:
-      TZ: Asia/Tokyo
-      MYSQL_HOST: root
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: dev
+ # Mysql Server Container
+ mysql-server:
+   image: mysql:5.7.21
+   expose:
+     - 3306
+   environment:
+     TZ: Asia/Tokyo
+     MYSQL_HOST: root
+     MYSQL_ROOT_PASSWORD: root
+     MYSQL_DATABASE: dev
 
-  # redis Server Container
-  redis-server:
-      image: redis:3.2.10
-      expose:
-        - 6379
+ # redis Server Container
+ redis-server:
+     image: redis:3.2.10
+     expose:
+       - 6379
 
-  # memcached Server Container
-  memcached-server:
-    image: memcached:1.4.34
-    expose:
-      - 11211
-    ports:
-      - "11211:11211"
+ # memcached Server Container
+ memcached-server:
+   image: memcached:1.4.34
+   expose:
+     - 11211
+   ports:
+     - "11211:11211"

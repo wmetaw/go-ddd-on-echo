@@ -11,9 +11,6 @@
     - name: install packages
       yum: name={{ item }} state=installed
       with_items:
-        - wget
-        - tar
-        - gzip
         - git
         - gcc
 
@@ -45,27 +42,3 @@
     # Install godo (golang build tool in the spirt of rake, gulp)
     - name: Install godo (golang build tool in the spirt of rake, gulp)
       command: go get -u gopkg.in/godo.v2/cmd/godo
-
-    # - name: set PATH
-    #   shell: echo $PATH
-    #   environment:
-    #     GOPATH: /go
-    #     PATH: "{{ ansible_env.PATH }}:/go/bin"
-    #     PATH: "{{ ansible_env.PATH }}:/usr/local/go/bin"
-
-    # # Before 2.3, option 'dest', 'destfile' or 'name' was used instead of 'path'
-    # - lineinfile:
-    #     path: /go
-    #     regexp: '^GOPATH='
-    #     line: 'GOPATH=/go'
-
-    # - name: Set GOPATH
-    #   command: export PATH="/usr/local/go/bin:{{path}}"
-    # - name: Set GOPATH
-    #   command: export GOPATH=/go
-    # - name: Set GOPATH
-    #   command: export PATH={{path}}:/go/bin
-    # - name: Set GOPATH
-    #   command: mkdir -p "/go/src" "/go/bin" && chmod -R 777 "/go/"
-
-# ansible-playbook setup.yml

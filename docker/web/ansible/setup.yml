@@ -25,6 +25,18 @@
     - file: path=/usr/local/{{go_version}}.tar.gz
         state=absent
 
+    - name: Set Environment variables
+      shell: sh /etc/ansible/env.sh
+
+    - name: make directory /go/src
+      file: path=/go/src state=directory owner=root group=root mode=0777
+
+    - name: make directory /go/bin
+      file: path=/go/bin state=directory owner=root group=root mode=0777
+
+    - name: change permission /go/*
+      shell: chmod -R 777 "/go/"
+
     # Install mattes/migrate (Database migrations. CLI and Golang library.)
     - name: Install mattes/migrate (Database migrations. CLI and Golang library.)
       get_url: url="https://github.com/mattes/migrate/releases/download/v3.0.1/migrate.linux-amd64.tar.gz" dest=/usr/local/bin
@@ -41,4 +53,4 @@
 
     # Install godo (golang build tool in the spirt of rake, gulp)
     - name: Install godo (golang build tool in the spirt of rake, gulp)
-      command: go get -u gopkg.in/godo.v2/cmd/godo
+      shell: bash -lc "go get -u gopkg.in/godo.v2/cmd/godo"

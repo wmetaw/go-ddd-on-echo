@@ -10,9 +10,9 @@ var (
 
 func NewRedisConnection() (*redis.Client, error) {
 	c := redis.NewClient(&redis.Options{
-		Addr:     "redis-server:6379",
-		Password: "", // no password set
-		DB:       0,  // use default DB
+		Addr:     getEnv(REDIS_HOST, "redis-server") + ":" + getEnv(REDIS_PORT, "6379"),
+		Password: getEnv(REDIS_PASSWORD, ""), // no password set
+		DB:       0,                          // use default DB
 	})
 
 	_, err := c.Ping().Result()

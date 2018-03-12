@@ -11,7 +11,7 @@ import (
 )
 
 func Migrate() {
-	db, _ := sql.Open("mysql", config.GetDSN())
+	db, _ := sql.Open("mysql", config.GetMysqlDSN())
 	driver, _ := mysql.WithInstance(db, &mysql.Config{})
 	m, _ := migrate.NewWithDatabaseInstance(
 		"file://config/migrate",

@@ -12,12 +12,13 @@ services:
      - ${GOPATH}/src/github.com/wmetaw/go-ddd-on-echo:/go/src/github.com/wmetaw/go-ddd-on-echo
    environment:
      TZ: Asia/Tokyo
+     GOENV: development
    depends_on:
      - mysql-server
    links:
      - mysql-server
      - redis-server
-     - memcached-server
+     - memcache-server
    # command: godo server --watch
    command: bash -c "sleep 2; godo server --watch"
    # command: go run /go/src/github.com/wmetaw/go-ddd-on-echo/main.go
@@ -39,8 +40,8 @@ services:
      expose:
        - 6379
 
- # memcached Server Container
- memcached-server:
+ # memcache Server Container
+ memcache-server:
    image: memcached:1.4.34
    expose:
      - 11211

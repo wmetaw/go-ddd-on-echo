@@ -5,9 +5,9 @@ import (
 )
 
 var (
-	MCCon *memcache.Client
+	MemcacheCon *memcache.Client
 )
 
 func NewMemcacheConnection() *memcache.Client {
-	return memcache.New("memcached-server:11211")
+	return memcache.New(getEnv(MEMCACHE_HOST, "memcache-server") + ":" + getEnv(MEMCACHE_PORT, "11211"))
 }

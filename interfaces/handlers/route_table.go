@@ -65,7 +65,7 @@ func MemcacheSet(c echo.Context) error {
 
 	pid := c.Param("id")
 
-	if err := config.MCCon.Set(&memcache.Item{Key: "foo", Value: []byte(pid)}); err != nil {
+	if err := config.MemcacheCon.Set(&memcache.Item{Key: "foo", Value: []byte(pid)}); err != nil {
 		return JsonError(c, err, &APIError{
 			Message: "Can not Set : " + pid,
 			Status:  http.StatusInternalServerError,
@@ -80,7 +80,7 @@ func MemcacheGet(c echo.Context) error {
 
 	pid := c.Param("id")
 
-	it, err := config.MCCon.Get("foo")
+	it, err := config.MemcacheCon.Get("foo")
 	if err != nil {
 		return JsonError(c, err, &APIError{
 			Message: "Can not Get : " + pid,

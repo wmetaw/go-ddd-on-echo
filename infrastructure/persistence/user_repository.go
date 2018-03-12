@@ -19,7 +19,7 @@ func (r *UserRepositoryImpl) GetAll() ([]*domain.User, error) {
 
 	// usersインスタンス化
 	users := []*domain.User{}
-	config.DBCon.Find(&users)
+	config.MysqlCon.Find(&users)
 
 	return users, nil
 }
@@ -27,7 +27,7 @@ func (r *UserRepositoryImpl) GetAll() ([]*domain.User, error) {
 func (r *UserRepositoryImpl) Get(id int) (*domain.User, error) {
 
 	user := domain.User{}
-	config.DBCon.Find(&user, id)
+	config.MysqlCon.Find(&user, id)
 
 	return &user, nil
 }
@@ -35,7 +35,7 @@ func (r *UserRepositoryImpl) Get(id int) (*domain.User, error) {
 func (r *UserRepositoryImpl) Update(user *domain.User) (*domain.User, error) {
 
 	// transaction
-	tx := config.DBCon.Begin()
+	tx := config.MysqlCon.Begin()
 	defer func() {
 		if r := recover(); r != nil {
 			tx.Rollback()

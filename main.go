@@ -9,8 +9,8 @@ import (
 
 func main() {
 
-	// migrate
-	//library.Migrate()
+	// 環境変数をロード
+	config.LoadEnv()
 
 	// Echo instance
 	e := echo.New()
@@ -22,20 +22,23 @@ func main() {
 
 	// DB Connection
 	var err error
-	config.DBCon, err = config.NewDBConnection()
+	config.MysqlCon, err = config.NewMysqlConnection()
 	if err != nil {
 		panic(err)
 	}
-	defer config.DBCon.Close()
+	defer config.MysqlCon.Close()
 
 	// Memcached Connection
-	config.MCCon = config.NewMemcacheConnection()
+	config.MemcacheCon = config.NewMemcacheConnection()
 
 	// Redis Connection
 	config.RedisCon, err = config.NewRedisConnection()
 	if err != nil {
 		panic(err)
 	}
+
+	// migrate
+	//library.Migrate()
 
 	// handler
 	handlers.Routes(e)

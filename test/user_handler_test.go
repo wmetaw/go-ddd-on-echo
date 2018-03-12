@@ -19,11 +19,11 @@ func TestUsersHandler(t *testing.T) {
 
 	// DB Connection
 	var err error
-	config.DBCon, err = config.NewDBConnection()
+	config.MysqlCon, err = config.NewMysqlConnection()
 	if err != nil {
 		panic(err)
 	}
-	defer config.DBCon.Close()
+	defer config.MysqlCon.Close()
 
 	// Users
 	req := httptest.NewRequest(echo.GET, "/users", nil)

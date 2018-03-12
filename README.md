@@ -37,7 +37,7 @@ $ docker-compose up
 
 # migrationする
 #  (別タブで cd $GOPATH¥src¥github.com¥wmetaw¥go-ddd-on-echo/docker )
-$ docker-compose exec web migrate -database 'mysql://root:root@tcp(mysql-server:3306)/dev?charset=utf8&parseTime=True&loc=Local' -path /go/src/github.com/wmetaw/go-ddd-on-echo/config/migrate/ up
+$ docker-compose exec web migrate -database 'mysql://root:root@tcp(mysql-server:3306)/dev?charset=utf8&parseTime=True&loc=Asia%2FTokyo' -path /go/src/github.com/wmetaw/go-ddd-on-echo/config/migrate/ up
 ```
 
 ※ WindowsはHYPER-Vをオンにしたり、BIOS開いて `Virtualization Technology` を`Enable`にする必要があるっぽい。
@@ -94,10 +94,7 @@ docker inspect docker_redis-server_1 | grep IPAddress
 docker-compose exec redis-server redis-cli -h 172.18.0.2
 
 # memcached-serverへの接続(ローカルマシンにtelnetコマンドが必要)
-docker-compose ps | grep memcached
-docker inspect docker_memcached-server_1 | grep IPAddress
 telnet localhost 11211
 # telnet 0.0.0.0 11211
 # telnet 192.168.99.100 11211
-
 ```

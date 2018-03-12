@@ -5,7 +5,7 @@ MAINTAINER Ryo Takashima
 
 # ansible
 RUN easy_install pip
-RUN pip install ansible
+RUN pip install ansible==2.4.3
 RUN mkdir /etc/ansible/
 ADD ansible/* /etc/ansible/
 

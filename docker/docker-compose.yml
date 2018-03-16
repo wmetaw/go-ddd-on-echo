@@ -1,49 +1,70 @@
 version: '3'
 services:
 
- # Application Server Container
- web:
-   # build Dockerfile
+  # Application Server Container
+  web:
    build: ./web
    ports:
-   - "1323:1323"
-   # mount host directory HostPath:ContainerPath
-   volumes:
+     - "1323:1323"
+   volumes: # mount host directory HostPath:ContainerPath
      - ${GOPATH}/src/github.com/wmetaw/go-ddd-on-echo:/go/src/github.com/wmetaw/go-ddd-on-echo
-   environment:
-     TZ: Asia/Tokyo
-     GOENV: development
    depends_on:
      - mysql-server
    links:
      - mysql-server
      - redis-server
      - memcache-server
-   # command: godo server --watch
    command: bash -c "sleep 2; godo server --watch"
-   # command: go run /go/src/github.com/wmetaw/go-ddd-on-echo/main.go
-
- # Mysql Server Container
- mysql-server:
-   image: mysql:5.7.21
-   expose:
-     - 3306
    environment:
      TZ: Asia/Tokyo
-     MYSQL_HOST: root
-     MYSQL_ROOT_PASSWORD: root
-     MYSQL_DATABASE: dev
+     GOENV: development
 
- # redis Server Container
- redis-server:
-     image: redis:3.2.10
-     expose:
-       - 6379
+  # Mysql Server Container
+  mysql-server:
+    image: mysql:5.7.21
+    expose:
+      - 3306
+    environment:
+      TZ: Asia/Tokyo
+      MYSQL_HOST: root
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: dev
 
- # memcache Server Container
- memcache-server:
-   image: memcached:1.4.34
-   expose:
+  # redis Server Container
+  redis-server:
+    image: redis:3.2.10
+    expose:
+      - 6379
+    environment:
+      TZ: Asia/Tokyo
+
+  # memcache Server Container
+  memcache-server:
+    image: memcached:1.4.34
+    expose:
      - 11211
-   ports:
+    ports:
      - "11211:11211"
+    environment:
+     TZ: Asia/Tokyo
+
+  # API Blueprint Server Container
+  blueprint:
+    build: ./blueprint
+    volumes:
+      - ./blueprint/md:/workspace/docs/
+      - ./blueprint/html:/workspace/output/
+    ports:
+      - "8000:8000"
+    environment:
+     TZ: Asia/Tokyo
+
+  # api-mock Server Container
+  apimock:
+    build: ./apimock
+    volumes:
+      - ./blueprint/md/api.apib:/usr/src/app/api.apib
+    ports:
+      - "3000:3000"
+    environment:
+     TZ: Asia/Tokyo

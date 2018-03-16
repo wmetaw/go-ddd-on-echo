@@ -1,0 +1,13 @@
+{
+  "name": "apimock",
+  "version": "1.0.0",
+  "description": "Package json file to install and start api-mock daemon in docker",
+  "scripts": {
+    "start": "$(npm bin)/api-mock api.apib"
+  },
+  "author": "Ryo Takashima<lio114514@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "api-mock": "^0.3.2"
+  }
+}

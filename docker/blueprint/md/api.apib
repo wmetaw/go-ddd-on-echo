@@ -1,0 +1,120 @@
+FORMAT: 1A
+HOST: http://localhost:8000
+
+# ほげプロジェクトのAPIドキュメント
+
+# User関連の定義
+
+# Data Structures
+## Article (object)
++ title: `API Blueprint で API 仕様書を書いて、配布用の HTML を自動生成する方法` (string, required) - レコメンドされた記事のタイトル
++ url: `http://techblog.gmo-ap.jp/api-blueprint` (string, required) - レコメンドされた記事のURL（測定用パラメータ付きURL）
++ publishedAt: `2017-05-24T17:44:06+09:00` (string) - レコメンドされた記事の公開日
+
+
+## ユーザのエンドポイント [/users]
+### ユーザ登録 [GET]
+#### 処理概要
+* ユーザーを取得する
++ Response 200 (application/json)
+  + Headers
+    X-My-Message-Header: 42
+  + Body
+    {"user":{"name":"yamada","age":18}}
+
++ Response 400 (application/json)
+  + Body
+    {"error":{"message":"400 BadRequest"}}
+
+### ユーザ登録 [POST]
+#### 処理概要
+* ユーザ情報を新しく登録する。
+* 登録に成功した場合、アクセストークンを返す。
+```
+curl -X POST -H 'Content-Type:application/json' localhost:3000/users
+```
+
++ Request (application/json)
+   + Headers
+    Accept: application/json
+   + Attributes
+    + email: test@example.com (string, required) - メールアドレス（format: email）
+    + password: abc123 (string, required) - パスワード（pattern: ^[0-9A-Za-z]{6,16}$）
+
++ Response 200 (application/json)
+  + Attributes
+  + Response 201 (application/json)
+
+      + Attributes
+          + accessToken: f58ba22059f5a8aa8f346e0f40987adab326041fac99029c909bef2c6300821a (string, required) - アクセストークン
+
+
+## ユーザ情報取得 [/v1/groups/{groupId}/users{?userId,mailAddress}]
+### ユーザ情報取得API [GET]
+#### 処理概要
+* 指定した会員の情報を返す。
+* userIdかmailAddressいずれかは必須。どちらも指定がない場合、BadRequestを返す。
+* userIdとmailAddressがどちらも指定されている場合、userIdの情報を利用し、mailAddressは利用しない。
+
++ Parameters
+  + groupId: 11440002 (number, required) - ユーザが所属するグループID
+  + userId: 300 (number, optional) - ユーザID
+  + mailAddress: some@example.com (string, optional) - ユーザのメールアドレス
+
++ Response 200 (application/json)
+  + Attributes
+      + user (required)
+          + name: yamada (string, required)
+          + age: 18 (number, required)
+          + type: 0 (enum, required) - ユーザ種別(0:無料ユーザ, 1:有料ユーザ)
+          + profile (object, required)
+          + registered: `2015-06-11T08:40:51Z` (string, required)
+          + favorites (array)
+              + `http://dev.classmethod.jp/` (string)
+      + messageHistory (array)
+          + (object)
+              + id: 22345 (number, required)
+              + title: 今日の献立 (string, required)
+
+
+
+# Group レコメンド
+## レコメンド記事のエンドポイント [/api/v1/articles?contract={contract}&url={url}&audience={audience}&dnt={dnt}]
+### レコメンド記事の取得 [GET]
+#### 概要
+* レコメンド記事を取得したい場合に、この API を呼び出す。
++ Parameters
+    + contract: 1000 (number, required) - 契約 ID
+    + url: `http://hogefuga.com` (string, required) - 記事のレコメンドに使いたい URL
+    + audience: abcdefg (string, required) - オーディエンスの特定に用いる ID
+    + dnt: 0 (enum[number], optional) - オーディエンス ID をターゲティング利用するかどうかターゲティング利用を許可する場合は 0、しない場合は 1
+        + Default: 0
+        + Members
+            + 0
+            + 1
+
++ Request (application/json)
+    + Headers
+        Accept: application/json
+
++ Response 200 (application/json)
+    * リクエストが正常に処理された場合。
+    * 配列中の並び順は、レコメンド順序を表す。優先度の一番高い記事が先頭。
+    * レコメンド結果が存在しない場合は、"articles" の値として、空の配列が返される。
+    + Attributes
+        + articles (array[Article], required) - レコメンド記事を優先度の高い順に並べた配列
+
++ Response 400 (application/json)
+    + Attributes
+        + message: Missing parameters (enum[string], required) - エラーメッセージ
+            + Members
+                + Missing parameters
+                + Invalid parameters
+                + Invalid contract
+
++ Response 500 (application/json)
+    + Attributes
+        + message: Server busy (enum[string], required) - エラーメッセージ
+            + Members
+                + Server busy
+                + Server failure

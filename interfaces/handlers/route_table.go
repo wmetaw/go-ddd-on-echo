@@ -103,8 +103,8 @@ func validTokenByIssueAt(next echo.HandlerFunc) echo.HandlerFunc {
 		claims := user.Claims.(jwt.MapClaims)
 
 		// interface型をキャスト
-		if exp, ok := claims["iat"].(int64); ok {
-			if redis_iat > exp {
+		if iat, ok := claims["iat"].(int64); ok {
+			if redis_iat > iat {
 				return JsonError(c, err, &APIError{
 					Message: "Token Force Reset",
 					Status:  http.StatusUnauthorized,

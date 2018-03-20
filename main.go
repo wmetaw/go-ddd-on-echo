@@ -37,12 +37,12 @@ func main() {
 		panic(err)
 	}
 
-	// migrate
-	//library.Migrate()
-
 	// handler
 	handlers.Routes(e)
 
+	// migrate
+	//library.Migrate()
+
 	// start server
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(":1324"))
 }

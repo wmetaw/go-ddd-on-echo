@@ -23,6 +23,7 @@ const (
 	REDIS_HOST     = "REDIS_HOST"
 	REDIS_PORT     = "REDIS_PORT"
 	REDIS_PASSWORD = "REDIS_PASSWORD"
+	JWT_KEY        = "JWT_KEY"
 )
 
 func LoadEnv() {
@@ -44,4 +45,8 @@ func getEnv(name, def string) string {
 		return env
 	}
 	return def
+}
+
+func GetJWTKey() []byte {
+	return []byte(JWT_KEY)
 }
